@@ -15,33 +15,28 @@ namespace Praktika.DAL
             dbContext = new AppDbContext();
         }
 
-        //Добавить команду
         public void Add(Teams team)
         {
             dbContext.Teams.Add(team);
             dbContext.SaveChanges();
         }
 
-        //Получить все команды
         public List<Teams> GetAll()
         {
             return dbContext.Teams.ToList();
         }
 
-        //Найти по Id
         public Teams GetById(int id)
         {
             return dbContext.Teams.FirstOrDefault(t => t.Id == id);
         }
 
-        // Обновить команду
         public void Update(Teams team)
         {
             dbContext.Teams.Update(team);
             dbContext.SaveChanges();
         }
 
-        //Удалить по Id
         public bool Remove(int id)
         {
             var team = GetById(id);
@@ -54,7 +49,6 @@ namespace Praktika.DAL
             return false;
         }
 
-        //Удалить несколько
         public void RemoveRange(List<Teams> teams)
         {
             dbContext.Teams.RemoveRange(teams);
