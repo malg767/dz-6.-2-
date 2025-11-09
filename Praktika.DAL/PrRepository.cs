@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Praktika.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -18,34 +18,22 @@ namespace Praktika.DAL
         }
 
         public void Add(Team team)
-        public void Add(Teams team)
-        public void Add(Teams team)
-        public void Add(Teams team)
         {
             dbContext.Teams.Add(team);
-        public List<Team> GetAll()
-        //Получить все команды
-        public List<Teams> GetAll()
-        //Получить все команды
-        public List<Teams> GetAll()
-        public Team GetById(int id)
-        public List<Teams> GetAll()
-        //Найти по Id
-        public Teams GetById(int id)
-            return dbContext.Teams.ToList();
-        public void Update(Team team)
-        public Teams GetById(int id)
-
-        // Обновить команду
-        public void Update(Teams team)
-        public Teams GetById(int id)
-        {
-        // Обновить команду
-        public void Update(Teams team)
+            dbContext.SaveChanges();
         }
 
-        // Обновить команду
-        public void Update(Teams team)
+        public List<Team> GetAll()
+        {
+            return dbContext.Teams.ToList();
+        }
+
+        public Team GetById(int id)
+        {
+            return dbContext.Teams.FirstOrDefault(t => t.Id == id);
+        }
+
+        public void Update(Team team)
         {
             dbContext.Teams.Update(team);
             dbContext.SaveChanges();
@@ -53,23 +41,18 @@ namespace Praktika.DAL
 
         public void RemoveRange(List<Team> teams)
         {
-            var team = GetById(id);
-            if (team != null)
-        //Удалить несколько
-        public void RemoveRange(List<Teams> teams)
-                dbContext.Teams.Remove(team);
-                dbContext.SaveChanges();
-                return true;
-        //Удалить несколько
-        public void RemoveRange(List<Teams> teams)
-            return false;
-        }
-
-        //Удалить несколько
-        public void RemoveRange(List<Teams> teams)
-        {
             dbContext.Teams.RemoveRange(teams);
             dbContext.SaveChanges();
+        }
+
+        public void Remove(int id)
+        {
+            var team = dbContext.Teams.FirstOrDefault(t => t.Id == id);
+            if (team != null)
+            {
+                dbContext.Teams.Remove(team);
+                dbContext.SaveChanges();
+            }
         }
 
         public List<Match> GetAllMatches()
@@ -165,7 +148,7 @@ namespace Praktika.DAL
                 var randomDate = start.AddDays(rnd.Next((end - start).Days));
 
                 int goalsScored = rnd.Next(0, 6);
-                int goalsConceded = rnd.Next(0, 6);
+int goalsConceded = rnd.Next(0, 6);
 
                 var team1Players = dbContext.Players.Where(p => p.TeamId == team1.Id).ToList();
                 var team1Scorers = new List<Player>();
@@ -284,7 +267,8 @@ namespace Praktika.DAL
 
         public Team Top1_TeamByGoalsScored()
         {
-            return GetAll()
+            return
+GetAll()
                 .OrderByDescending(t => t.Goals_scored)
                 .FirstOrDefault();
         }
@@ -317,8 +301,5 @@ namespace Praktika.DAL
 
             return result;
         }
-
-
-
     }
 }
