@@ -133,7 +133,6 @@ namespace Praktika.DAL
             }
 
             Random rnd = new Random();
-
             for (int i = 0; i < numberOfMatches; i++)
             {
                 var team1 = teams[rnd.Next(teams.Count)];

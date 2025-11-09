@@ -20,6 +20,7 @@ namespace Praktika
 
                 while (true)
                 {
+                    Console.Clear();
                     Console.WriteLine("1 - добавить команду.\n2 - вывести всех команд.\n3 - удалить команду.\n4 - изменить данные команды.\n5 - найти команду.\n6 - выбрать по параметрам.\n7 - функции с матчами и игроками. \n8 - Добавить/Удалить/Изменить матч \n9 - Статистика бомбардиров \n10 - Статистика команд по голам \n0 - выход.");
                     Console.Write("Введите: ");
                     string inp = Console.ReadLine();
@@ -30,13 +31,15 @@ namespace Praktika
                             break;
                         else
                             Console.WriteLine("Ошибка! Введите число от 0 до 10.");
+                            menu.ReadKey();
                     }
                     else
                     {
                         Console.WriteLine("Ошибка ввода! Введите число.");
+                        menu.ReadKey();
                     }
                 }
-
+                Console.Clear();
                 switch (choice)
                 {
                     case 0:
@@ -78,7 +81,6 @@ namespace Praktika
                 }
             }
         }
-
         static void TopTeams(PrRepository rep, Menu menu)
         {
             Console.Clear();
