@@ -171,7 +171,26 @@ namespace Praktika.DAL
                         team2Scorers.Add(scorer);
                     }
                 }
+
+                var allScorers = new List<Player>();
+                allScorers.AddRange(team1Scorers);
+                allScorers.AddRange(team2Scorers);
+
+                var match = new Match
+                {
+                    TeamId = team1.Id,
+                    Team = team1,
+                    Opponent = team2,
+                    GoalsScored = goalsScored,
+                    GoalsConceded = goalsConceded,
+                    MatchDate = randomDate,
+                    Players = allScorers
+                };
+
+                dbContext.Matches.Add(match);
+                addedMatches.Add(match);
             }
+
             dbContext.SaveChanges();
             Console.WriteLine($"{numberOfMatches} матчей успешно добавлено случайным образом!");
             return addedMatches;
