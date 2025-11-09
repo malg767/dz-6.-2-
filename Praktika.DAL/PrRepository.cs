@@ -172,6 +172,82 @@ namespace Praktika.DAL
                     }
                 }
 
+        public List<Match> MatchRandom(int numberOfMatches)
+        {
+            var addedMatches = new List<Match>();
+
+            if (dbContext.Players.Count() == 0)
+            {
+                Console.WriteLine("Нет игроков в базе! Добавьте игроков перед генерацией матчей.");
+                return addedMatches;
+            }
+
+            var teams = dbContext.Teams.ToList();
+            if (teams.Count < 2)
+            {
+                Console.WriteLine("Недостаточно команд для генерации матчей.");
+                return addedMatches;
+            }
+
+            Random rnd = new Random();
+
+            for (int i = 0; i < numberOfMatches; i++)
+            {
+                var team1 = teams[rnd.Next(teams.Count)];
+                Team team2;
+                do
+                {
+                    team2 = teams[rnd.Next(teams.Count)];
+                } while (team2.Id == team1.Id);
+
+                var start = new DateTime(DateTime.Now.Year, 1, 1);
+                var end = new DateTime(DateTime.Now.Year, 12, 31);
+                var randomDate = start.AddDays(rnd.Next((end - start).Days));
+
+                int goalsScored = rnd.Next(0, 6);
+                int goalsConceded = rnd.Next(0, 6);
+
+                var team1Players = dbContext.Players.Where(p => p.TeamId == team1.Id).ToList();
+                var team1Scorers = new List<Player>();
+                if (team1Players.Any() && goalsScored > 0)
+                {
+                    for (int g = 0; g < goalsScored; g++)
+                    {
+                        var scorer = team1Players[rnd.Next(team1Players.Count)];
+                        team1Scorers.Add(scorer);
+                    }
+                }
+
+                var team2Players = dbContext.Players.Where(p => p.TeamId == team2.Id).ToList();
+                var team2Scorers = new List<Player>();
+                if (team2Players.Any() && goalsConceded > 0)
+                {
+                    for (int g = 0; g < goalsConceded; g++)
+                    {
+                        var scorer = team2Players[rnd.Next(team2Players.Count)];
+                        team2Scorers.Add(scorer);
+                    }
+                }
+
+                var allScorers = new List<Player>();
+                allScorers.AddRange(team1Scorers);
+                allScorers.AddRange(team2Scorers);
+
+                var match = new Match
+                {
+                    TeamId = team1.Id,
+                    Team = team1,
+                    Opponent = team2,
+                    GoalsScored = goalsScored,
+                    GoalsConceded = goalsConceded,
+                    MatchDate = randomDate,
+                    Players = allScorers
+                };
+
+                dbContext.Matches.Add(match);
+                addedMatches.Add(match);
+            }
+
                 var allScorers = new List<Player>();
                 allScorers.AddRange(team1Scorers);
                 allScorers.AddRange(team2Scorers);
@@ -300,5 +376,29 @@ namespace Praktika.DAL
 
             return result;
         }
+
+        public Team Top1_TeamByGoalsConceded()
+        {
+            return GetAll()
+                .OrderBy(t => t.Goals_missed)
+                .FirstOrDefault();
+        }
+
+        public List<(Team Team, int Points)> TeamsWithPoints()
+        {
+            var teams = GetAll();
+            var result = new List<(Team, int)>();
+
+            foreach (var t in teams)
+            {
+                int points = t.Win * 3 + t.Draw;
+                result.Add((t, points));
+            }
+
+            return result;
+        }
+
+
+
     }
 }
