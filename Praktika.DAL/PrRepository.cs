@@ -148,7 +148,7 @@ namespace Praktika.DAL
                 var randomDate = start.AddDays(rnd.Next((end - start).Days));
 
                 int goalsScored = rnd.Next(0, 6);
-int goalsConceded = rnd.Next(0, 6);
+                int goalsConceded = rnd.Next(0, 6);
 
                 var team1Players = dbContext.Players.Where(p => p.TeamId == team1.Id).ToList();
                 var team1Scorers = new List<Player>();
@@ -267,8 +267,7 @@ int goalsConceded = rnd.Next(0, 6);
 
         public Team Top1_TeamByGoalsScored()
         {
-            return
-GetAll()
+            return GetAll()
                 .OrderByDescending(t => t.Goals_scored)
                 .FirstOrDefault();
         }
