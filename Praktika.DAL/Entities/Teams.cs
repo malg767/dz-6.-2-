@@ -1,7 +1,9 @@
-﻿
-namespace Praktika.DAL
+﻿using Praktika.DAL.Entities;
+using System.Text.RegularExpressions;
+
+namespace Praktika.DAL.Entities
 {
-    public class Teams
+    public class Team
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -11,5 +13,8 @@ namespace Praktika.DAL
         public int Draw { get; set; }
         public int Goals_scored { get; set; }
         public int Goals_missed { get; set; }
-    }
+
+        public List<Player> Players { get; set; }
+        public List<Match> Matches{ get; set; }
+    } 
 }
