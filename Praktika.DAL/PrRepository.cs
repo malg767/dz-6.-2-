@@ -397,8 +397,5 @@ namespace Praktika.DAL
 
             return result;
         }
-
-
-
     }
 }
